@@ -107,9 +107,9 @@ const Index = () => {
     if (presentationMode) {
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
-      } else if (typeof elem.webkitRequestFullscreen === 'function') {
+      } else if (typeof elem.webkitRequestFullscreen === "function") {
         elem.webkitRequestFullscreen(); // Safari
-      } else if (typeof elem.msRequestFullscreen === 'function') {
+      } else if (typeof elem.msRequestFullscreen === "function") {
         elem.msRequestFullscreen(); // IE11
       }
     } else {
@@ -120,9 +120,9 @@ const Index = () => {
         };
         if (document.exitFullscreen) {
           document.exitFullscreen();
-        } else if (typeof doc.webkitExitFullscreen === 'function') {
+        } else if (typeof doc.webkitExitFullscreen === "function") {
           doc.webkitExitFullscreen(); // Safari
-        } else if (typeof doc.msExitFullscreen === 'function') {
+        } else if (typeof doc.msExitFullscreen === "function") {
           doc.msExitFullscreen(); // IE11
         }
       }
@@ -143,11 +143,46 @@ const Index = () => {
       const aCompleted = a.milestones.filter((m) => m.completed).length;
       const bCompleted = b.milestones.filter((m) => m.completed).length;
 
+      // Primary sort: by number of completed milestones
       if (aCompleted !== bCompleted) {
-        return bCompleted - aCompleted; // More completed milestones first
+        return bCompleted - aCompleted;
       }
 
-      return a.totalTime - b.totalTime; // Faster completion time first
+      // Secondary sort: by most recent completion time for teams with same completion count
+      const aCompletedMilestones = a.milestones.filter(
+        (m) => m.completed && m.completedAt
+      );
+      const bCompletedMilestones = b.milestones.filter(
+        (m) => m.completed && m.completedAt
+      );
+
+      if (aCompletedMilestones.length > 0 && bCompletedMilestones.length > 0) {
+        // Get the most recent completion time for each team
+        const aLatestCompletion = Math.max(
+          ...aCompletedMilestones.map((m) => {
+            const time =
+              m.completedAt instanceof Date
+                ? m.completedAt.getTime()
+                : new Date(m.completedAt!).getTime();
+            return time;
+          })
+        );
+        const bLatestCompletion = Math.max(
+          ...bCompletedMilestones.map((m) => {
+            const time =
+              m.completedAt instanceof Date
+                ? m.completedAt.getTime()
+                : new Date(m.completedAt!).getTime();
+            return time;
+          })
+        );
+
+        // Earlier completion time comes first
+        return aLatestCompletion - bLatestCompletion;
+      }
+
+      // Tertiary sort: by team creation order (ID) if no completions
+      return parseInt(a.id) - parseInt(b.id);
     });
   }, [teams]);
 
@@ -271,24 +306,26 @@ const Index = () => {
                 <div className="flex items-center gap-2 text-5xl font-mono">
                   <span className="text-green-400">⏱️</span>
                   <span>
-                    {String(Math.floor(elapsed / 3600)).padStart(2, '0')}
-                    :{String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0')}
-                    :{String(elapsed % 60).padStart(2, '0')}
+                    {String(Math.floor(elapsed / 3600)).padStart(2, "0")}:
+                    {String(Math.floor((elapsed % 3600) / 60)).padStart(2, "0")}
+                    :{String(elapsed % 60).padStart(2, "0")}
                   </span>
                 </div>
               )}
               {!presentationMode && (
                 <>
-                  {!timerStarted && (<button
-                    onClick={() => {
-                      setTimer(new Date());
-                      setTimerStarted(true);
-                    }}
-                    className="px-3 py-1 rounded bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition-colors mr-2"
-                    title="Start Timer"
-                  >
-                    Start Timer
-                  </button>)}
+                  {!timerStarted && (
+                    <button
+                      onClick={() => {
+                        setTimer(new Date());
+                        setTimerStarted(true);
+                      }}
+                      className="px-3 py-1 rounded bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition-colors mr-2"
+                      title="Start Timer"
+                    >
+                      Start Timer
+                    </button>
+                  )}
                   <button
                     onClick={handleResetData}
                     className="px-3 py-1 rounded bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors mr-2"
