@@ -31,20 +31,26 @@ interface Team {
 const INITIAL_MILESTONES: Milestone[] = [
   {
     id: 1,
-    title: "App & GitHub Repo Creation",
-    subtitle: "Setting the Foundation for Your Project",
+    title: "Pick Your Playground",
+    subtitle: "Choose an existing app and a feature to improve.",
     completed: false,
   },
   {
     id: 2,
-    title: "Docker & GitHub Action Creation",
-    subtitle: "Automating Your Build & Integration Process",
+    title: "Sketch It Simple",
+    subtitle: "Design a clean, minimal UI.",
     completed: false,
   },
   {
     id: 3,
-    title: "Deployment",
-    subtitle: "Launching Your Application Live",
+    title: "Build the Core",
+    subtitle: "Develop and integrate one key feature.",
+    completed: false,
+  },
+  {
+    id: 4,
+    title: "Power-Up Mode (Bonus)",
+    subtitle: "Add up to 3 features and polish your app.",
     completed: false,
   },
 ];
