@@ -385,7 +385,7 @@ const Index = () => {
             const completedCount = team.milestones.filter(
               (m) => m.completed
             ).length;
-            const isFullyCompleted = completedCount === 4;
+            const isFullyCompleted = completedCount === 3;
 
             return (
               <Card
@@ -410,7 +410,7 @@ const Index = () => {
                   <hr className="my-2 border-gray-700" />
                   <div className="flex justify-between items-start">
                     <div className="text-sm text-gray-400">
-                      Progress: {completedCount}/4 milestones
+                      Progress: {completedCount}/3 milestones
                     </div>
                     {isFullyCompleted && team.totalTime > 0 && (
                       <div className="text-sm text-green-400 flex items-center gap-1">
