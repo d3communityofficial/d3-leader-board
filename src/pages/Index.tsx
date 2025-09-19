@@ -31,26 +31,20 @@ interface Team {
 const INITIAL_MILESTONES: Milestone[] = [
   {
     id: 1,
-    title: "Pick Your Playground",
-    subtitle: "Choose an existing app and a feature to improve.",
+    title: "Kickstart Together",
+    subtitle: "Get the project rolling with a shared vision.",
     completed: false,
   },
   {
     id: 2,
-    title: "Sketch It Simple",
-    subtitle: "Design a clean, minimal UI.",
+    title: "Prototype in Action",
+    subtitle: "Build a simple, working model of your idea.",
     completed: false,
   },
   {
     id: 3,
-    title: "Build the Core",
-    subtitle: "Develop and integrate one key feature.",
-    completed: false,
-  },
-  {
-    id: 4,
-    title: "Power-Up Mode (Bonus)",
-    subtitle: "Add up to 3 features and polish your app.",
+    title: "Catalyst Launchpad",
+    subtitle: "Deploy your prototype seamlessly on Zoho Catalyst.",
     completed: false,
   },
 ];
